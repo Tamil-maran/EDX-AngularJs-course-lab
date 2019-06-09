@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html ng-app="app">
+
+<head>
+    <title>Tony's Pizza</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7"
+        crossorigin="anonymous">
+</head>
+
+<body ng-controller="pizzaController">
+    <div class="container">
+        <h1>Tony's Pizza</h1>
+
+        <h2>{{model.title}}</h2>
+    </div>
+    <div class="container">
+        <h3> Topping Search </h3>
+        <input type="text" class="form-control" ng-model="model.search">
+        <div style="margin-top: 10px;" ng-show="model.addedTopping" class="alert alert-success">
+            Topping Added 
+            <input ng-click="model.addedTopping=false" type="button" value="Close">
+        </div>
+        <div ng-hide="model.search">
+            Enter search term
+        </div>
+        <div ng-show="model.search && (model.availableToppings | filter:{name:model.search}).length">
+            Search Results
+        </div>
+        <div style="display: inline-block" ng-show="model.search"  ng-repeat="t in model.availableToppings | filter:{name:model.search}"  ng-click="addTopping(t)" >
+            <span class="topping" style="background-color: {{t.color}}">{{t.name}}</span>
+        </div>
+        <div style="margin-top: 10px" ng-show="model.search && (model.availableToppings | filter:{name:model.search}).length == 0" class="alert alert-danger">No toppings</div>
+        <div ng-show="model.selectedToppings.length">
+                <h3>Selected Toppings</h3>
+        </div>
+        <div style="display: inline-block" ng-show="model.selectedToppings.length"  ng-repeat="t in model.selectedToppings"  >
+            <span  class="topping" style="background-color: {{t.color}}">{{t.name}}</span>
+        </div>
+        
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
+    <script src="./app/app.js"></script>
+    <script src="./app/pizzaController.js"></script>
+</body>
+<style>
+    .topping {
+        padding: 10px;
+        margin: 5px;
+        display: inline-block;
+        border-radius: 5px;
+        color: white;
+    }
+    [ng-click],
+    [data-ng-click],
+    [x-ng-click] {
+        cursor: pointer;
+    }
+</style>
+</html>
